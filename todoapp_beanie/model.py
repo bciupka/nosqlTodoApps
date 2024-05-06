@@ -1,20 +1,17 @@
-from beanie import Document, PydanticObjectId
+from beanie import Document
 from pydantic import BaseModel, Field
 from typing import Annotated
 from datetime import datetime
 
 
-class Todo(Document):
-    id: PydanticObjectId
-    title: Annotated[str, Field(max_length=50)]
+class TodoBase(BaseModel):
     description: Annotated[str, Field(max_length=100)]
     due_date: datetime
 
 
-class TodoUpdate(BaseModel):
-    description: Annotated[str, Field(max_length=100)]
-    due_date: datetime
-
-
-class TodoIn(TodoUpdate):
+class Todo(Document, TodoBase):
     title: Annotated[str, Field(max_length=50)]
+
+
+class TodoUpdate(TodoBase):
+    pass
